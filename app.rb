@@ -6,6 +6,7 @@ set :database, "sqlite3:test.sqlite3"
 
 get '/' do
   "hello world"
+  erb :home
 end
 
 get '/users' do
@@ -25,4 +26,12 @@ end
 get '/users/:id' do
   @user = User.find(params["id"])
   erb :"user_details"
+end
+
+get '/posts/new' do
+  erb :new_post
+end
+
+post '/posts/create' do
+  redirect "/"
 end

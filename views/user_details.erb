@@ -1,6 +1,12 @@
 <h3>Here are your details</h3>
 
-<strong>User name:</strong> <%= @user.name %> edit <br>
-<strong>User password:</strong> <%= @user.password %> edit <br>
-<strong>User email:</strong> <%= @user.email %> edit <br>
-<strong>User adminStatus:</strong> <%= @user.admin %> edit <br>
+<strong>User name:</strong> <%= @user.name %>
+<strong>User password:</strong> <%= @user.password %>
+<strong>User email:</strong> <%= @user.email %>
+<strong>User adminStatus:</strong> <%= @user.admin %>
+
+<a href="/users/<%= @user.id %>/edit">edit</a> <br>
+
+<form action="/users/<%= @user.id %>/delete" method="post">
+  <input type="submit" name="name" value="OMGGMO">
+</form>

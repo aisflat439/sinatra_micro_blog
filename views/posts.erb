@@ -1,0 +1,13 @@
+<% @posts.each do |p| %>
+  <h3>Title <%= p.title %></h3>
+  <small>
+    <%= p.user_id %>
+  </small>
+  <article>
+     <%= p.body %>
+  </article>
+  <small>
+    <%= p.category %>
+  </small>
+  <hr>
+<% end %>

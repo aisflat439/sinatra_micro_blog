@@ -1,0 +1,16 @@
+<h3>Here are your details</h3>
+
+<form action="/users/<%= @user.id %>/update" method="post">
+
+  <strong>User name:</strong> <%= @user.name %> <br>
+  edit name: <input type="text" name="name" value="<%= @user.name %>"> <br>
+  <strong>User password:</strong> <%= @user.password %> <br>
+  edit password: <input type="text" name="password" value="<%= @user.password %>word"> <br>
+  <strong>User email:</strong> <%= @user.email %>  <br>
+  edit email: <input type="text" name="email" value="<%= @user.email %>"> <br>
+  <strong>User adminStatus:</strong> <%= @user.admin %> <br>
+  edit admin status: <input type="checkbox" name="admin" value="<%= @user.admin %>"> edit <br>
+
+  <input type="submit">
+
+</form>

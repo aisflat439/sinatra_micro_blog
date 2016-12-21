@@ -16,6 +16,17 @@
 		</ul>
 	</nav>
 
+	<% if !session[:user_id] %>
+		<form action="/signin" method="get">
+			<input type="submit" value="login">
+		</form>
+	<% else %>
+		<form action="/logout" method="post">
+			<input type="submit" value="logout">
+		</form>
+	<% end %>
+
+
 <%= flash[:notice] 	if flash[:notice] %>
 <%= flash[:alert] 	if flash[:alert] %>
 

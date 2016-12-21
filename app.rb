@@ -6,12 +6,17 @@ require 'sinatra/flash'
 set :database, "sqlite3:test.sqlite3"
 enable :sessions
 
+@logged_in = false
+
 def verify_login
-  if session[:user_id]
-    @verify_login = User.find(session[:user_id])
-  else
-    flash[:alert] = "Login to see this page."
-    redirect '/'
+  if !@logged_in
+    if session[:user_id]
+      @logged_in = true
+      @verify_login = User.find(session[:user_id])
+    else
+      flash[:alert] = "Login to see this page."
+      redirect '/'
+    end
   end
   @verify_login
 end
@@ -58,17 +63,28 @@ post '/users/:id/delete' do
 end
 
 get '/posts' do
-  @posts = Post.all
+  @posts = Post.all.reverse
   erb :posts
 end
 
+get '/posts/:id' do
+  @posts = Post.find(params['id'])
+  erb :view_post
+end
+
+get '/posts/:id/edit' do
+  @post = Post.find(params['id'])
+  erb :edit_post
+end
+
 get '/posts/new' do
+  @user = verify_login
   erb :new_post
 end
 
 post '/posts/create' do
   post = Post.create(params)
-  redirect "/"
+  redirect "/posts"
 end
 
 get '/signin' do
@@ -77,6 +93,7 @@ end
 
 post '/logout' do
   session[:user_id] = nil
+  @logged_in = false
   redirect '/'
 end
 

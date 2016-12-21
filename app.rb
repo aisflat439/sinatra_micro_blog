@@ -26,6 +26,28 @@ get '/' do
   erb :home
 end
 
+get '/signin' do
+  erb :signin
+end
+
+post '/login' do
+  @user = User.where(email: params['email']).first
+  if @user && @user.password == params['password']
+    session[:user_id] = @user.id
+    flash[:notice] = "You're now logged in."
+    redirect "/users/#{session[:user_id]}"
+  else
+    flash[:alert] = "Please sign in."
+    redirect "/signin"
+  end
+end
+
+post '/logout' do
+  session[:user_id] = nil
+  @logged_in = false
+  redirect '/'
+end
+
 get '/users' do
   @user = User.all
   erb :users
@@ -36,7 +58,8 @@ get '/users/new' do
 end
 
 post '/users/create' do
-  user = User.create(params)
+  u = User.create(params)
+  @user = verify_login
   redirect "/users/#{user.id}"
 end
 
@@ -67,8 +90,13 @@ get '/posts' do
   erb :posts
 end
 
+get '/posts/new' do
+  @user = verify_login
+  erb :new_post
+end
+
 get '/posts/:id' do
-  @posts = Post.find(params['id'])
+  @post = Post.find(params['id'])
   erb :view_post
 end
 
@@ -77,34 +105,16 @@ get '/posts/:id/edit' do
   erb :edit_post
 end
 
-get '/posts/new' do
-  @user = verify_login
-  erb :new_post
-end
-
 post '/posts/create' do
   post = Post.create(params)
   redirect "/posts"
 end
 
-get '/signin' do
-  erb :signin
-end
-
-post '/logout' do
-  session[:user_id] = nil
-  @logged_in = false
-  redirect '/'
-end
-
-post '/login' do
-  @user = User.where(email: params['email']).first
-  if @user && @user.password == params['password']
-    session[:user_id] = @user.id
-    flash[:notice] = "You're now logged in."
-    redirect "/users/#{session[:user_id]}"
-  else
-    flash[:alert] = "Please sign in."
-    redirect "/signin"
-  end
+post '/comment/:id' do
+  @comment = Comment.new
+  @comment.post_id = params[:id]
+  @comment.body = params['body']
+  @comment.commentor_id = params['commentor_id']
+  @comment.save
+  redirect "posts/#{@comment.post_id}"
 end

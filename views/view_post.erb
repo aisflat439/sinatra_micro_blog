@@ -1,1 +1,19 @@
-OMGGGGGG dopey
+<h2><%= @post.user_id %></h2>
+<p><%= @post.title %></p>
+<article><%= @post.body %></article>
+<small><%= @post.category %></small>
+
+<br><br>
+Comment on the post
+<form action="/comment/<%= @post.id %>" method="post">
+  <input type="text" name="body">
+  <input type="submit" value="submit">
+</form>
+
+
+<hr>
+<hr>
+<% @post.comments.each do |comment| %>
+  <h3><%= comment.body %></h3>
+  <h3><%= comment.commentor_id %></h3>
+<% end %>

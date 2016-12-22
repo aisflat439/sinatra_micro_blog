@@ -22,7 +22,6 @@ def verify_login
 end
 
 get '/' do
-  "hello world"
   erb :home
 end
 
@@ -85,6 +84,12 @@ post '/users/:id/delete' do
   redirect '/users'
 end
 
+get '/users/:id/posts' do
+  @user = User.find(params['id'])
+  @user_posts = Post.where("user_id == ?", params[:id])
+  erb :"user_posts"
+end
+
 get '/posts' do
   @posts = Post.all.reverse
   erb :posts
@@ -92,7 +97,7 @@ end
 
 get '/posts/new' do
   @user = verify_login
-  erb :new_post
+  erb :"new_post"
 end
 
 get '/posts/:id' do
@@ -106,7 +111,12 @@ get '/posts/:id/edit' do
 end
 
 post '/posts/create' do
-  post = Post.create(params)
+  @post = Post.new
+  @post.user_id = session[:user_id]
+  @post.title = params['title']
+  @post.body = params['body']
+  @post.category = params['category']
+  @post.save
   redirect "/posts"
 end
 
@@ -117,4 +127,27 @@ post '/comment/:id' do
   @comment.commentor_id = params['commentor_id']
   @comment.save
   redirect "posts/#{@comment.post_id}"
+end
+
+get '/sayings' do
+  @sayings = Saying.all
+  erb :sayings
+end
+
+get '/sayings/new' do
+  erb :"add_saying"
+end
+
+post '/sayings/create' do
+  @saying = Saying.new
+  @saying.author = params['author']
+  @saying.phrase = params['phrase']
+  @saying.save
+
+  redirect '/'
+end
+
+get '/sayings/:id' do
+  @saying = Sayings.find(params['id'])
+  erb :sayings
 end

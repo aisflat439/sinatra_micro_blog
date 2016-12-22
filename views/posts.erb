@@ -1,7 +1,8 @@
 <% @posts.each do |p| %>
   <h3>Title <%= p.title %></h3>
+  <h6>Author <%= p.user_id %></h6>
   <small>
-    <%= p.user_id %>
+    <%= p.id %>
   </small>
   <article>
      <%= p.body %>
@@ -10,5 +11,6 @@
     <%= p.category %>
   </small><br>
   <a href="/posts/<%= p.id %>">Comment on this post</a>
+  <a href="/posts/<%= p.id %>">View post</a>
   <hr>
 <% end %>

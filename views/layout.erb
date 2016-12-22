@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Impersonators</title>
+	<title>Not Twitter</title>
 	<link rel="stylesheet" href="/mdl/material.css">
 	<script src="/mdl/material.js"></script>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -12,13 +12,28 @@
 </head>
 <body>
 
-	<nav>
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/users/new">Sign Up!</a></li>
-			<li><a href="/posts/new">Make a post</a></li>
-		</ul>
-	</nav>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<header class="mdl-layout__header">
+			<div class="mdl-layout__header-row">
+				<span class="mdl-layout__title">MicroBlog</span>
+				<div class="mdl-layout-spacer"></div>
+				<nav class="mdl-navigation mdl-layout--large-screen-only">
+					<a class="mdl-navigation__link" href="/">Home</a>
+					<a class="mdl-navigation__link" href="/users/new">Sign Up!</a>
+					<a class="mdl-navigation__link" href="/posts/new">Make a post</a>
+					<a class="mdl-navigation__link" href="/posts">View posts</a>
+				</nav>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">MicroBlog</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="/">Home</a>
+				<a class="mdl-navigation__link" href="/users/new">Sign Up!</a>
+				<a class="mdl-navigation__link" href="/posts/new">Make a post</a>
+				<a class="mdl-navigation__link" href="/posts">View posts</a>
+			</nav>
+		</div>
 
 	<% if !session[:user_id] %>
 		<form action="/signin" method="get">
@@ -30,11 +45,15 @@
 		</form>
 	<% end %>
 
+	<main class="mdl-layout__content">
+		<div class="page-content">
+			<%= flash[:notice] 	if flash[:notice] %>
+			<%= flash[:alert] 	if flash[:alert] %>
+			<hr><hr><hr>
+			<%= yield %>
+		</div>
+	</main>
 
-<%= flash[:notice] 	if flash[:notice] %>
-<%= flash[:alert] 	if flash[:alert] %>
-<hr><hr><hr>
-<%= yield %>
-
+</div>
 </body>
 </html>

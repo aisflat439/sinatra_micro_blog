@@ -1,0 +1,8 @@
+<h2>Posts by <%= @user.name %></h2>
+<% @user_posts.each do |p| %>
+Title of post = <%= p.title %> <br>
+Body of post = <%= p.body %> <br>
+ID of post = <%= p.id %><br>
+Author of post = <%= p.user_id %>
+<br>
+<% end %>

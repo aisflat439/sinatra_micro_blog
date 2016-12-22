@@ -3,6 +3,7 @@
   <h3>email: <%= user.email %></h3>
   <h3>password: <%= user.password %></h3>
   <h3>admin: <%= user.admin %></h3>
-  <a href="/users/<%= user.id %>">User Details</a>
+  <a href="/users/<%= user.id %>">User Details</a><br>
+  <a href="/users/<%= user.id %>/posts">User Posts</a>
   <hr>
 <% end %>
